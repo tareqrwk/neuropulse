@@ -84,4 +84,11 @@ MIT License - Copyright (c) 2026 NeuroPulse Project.
 
 ---
 
+---
+
+## Credit
+3D Brain Model: This work is based on "Brain Areas" (https://sketchfab.com/3d-models/brain-areas-d64608a3978b47d8a39c5a15795ca8c4) by Versal (https://sketchfab.com/versal) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+---
+
 *Designed for the future of neuro-analysis and educational purposes.*
