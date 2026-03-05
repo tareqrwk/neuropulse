@@ -84,4 +84,4 @@ MIT License - Copyright (c) 2026 NeuroPulse Project.
 
 ---
 
-*Designed for the future of neuro-analysis.*
+*Designed for the future of neuro-analysis and educational purposes.*
