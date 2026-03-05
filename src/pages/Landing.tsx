@@ -276,12 +276,6 @@ export default function Landing() {
                             <p className="text-lg text-white/40 font-medium leading-relaxed italic">
                                 The goal of the project is to explore how interactive visualization and 3D graphics can help make complex neural signals more intuitive.
                             </p>
-                            <div className="mt-16 flex justify-center gap-6 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                                <Activity size={24} />
-                                <Cpu size={24} />
-                                <Layers size={24} />
-                                <Globe size={24} />
-                            </div>
                         </motion.div>
                     </div>
                 </section>
@@ -291,14 +285,10 @@ export default function Landing() {
             <footer className="relative z-10 py-12 px-10 border-t border-white/5 bg-black flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-2">
                     <Brain size={16} className="text-blue-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-white/50">NeuroPulse System v1.2.0</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white/50">NeuroPulse System v1.0.0</span>
                 </div>
                 <div className="text-[10px] font-black uppercase tracking-widest text-white/20">
-                    © 2024 Experimental Research Infrastructure
-                </div>
-                <div className="flex gap-8">
-                    <a href="#" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">Project Docs</a>
-                    <a href="#" className="text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors">Internal API</a>
+                    © 2026 Experimental Research Infrastructure
                 </div>
             </footer>
 

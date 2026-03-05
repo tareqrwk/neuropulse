@@ -1,6 +1,6 @@
 import React, { useMemo, Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment, Html, Line } from '@react-three/drei';
+import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ActivityMap } from '../utils/activitySimulator';
 import { rois, ROIName } from '../utils/roiPositions';
@@ -131,42 +131,7 @@ const NeuralParticles = () => {
     );
 };
 
-const NeuralLinks = ({ activity }: { activity: ActivityMap }) => {
-    const roiKeys = Object.keys(rois) as ROIName[];
-    const links = useMemo(() => {
-        const l = [];
-        for (let i = 0; i < roiKeys.length; i++) {
-            for (let j = i + 1; j < roiKeys.length; j++) {
-                l.push({ start: roiKeys[i], end: roiKeys[j] });
-            }
-        }
-        return l;
-    }, [roiKeys]);
 
-    return (
-        <group>
-            {links.map((link, i) => {
-                const combinedActivity = (activity[link.start] + activity[link.end]) / 2;
-                if (combinedActivity < 0.2) return null;
-
-                const startPos = rois[link.start].position.map(v => v * 5.0) as [number, number, number];
-                const endPos = rois[link.end].position.map(v => v * 5.0) as [number, number, number];
-
-                return (
-                    <Line
-                        key={i}
-                        points={[startPos, endPos]}
-                        color="#3b82f6"
-                        lineWidth={0.5}
-                        transparent
-                        opacity={combinedActivity * 0.05}
-                        blending={THREE.AdditiveBlending}
-                    />
-                );
-            })}
-        </group>
-    );
-};
 
 const PulseRings = () => {
     const rings = [0, 1, 2];
@@ -331,7 +296,6 @@ const BrainModel = ({ activity, filter, showHUD = true }: { activity: ActivityMa
             {/* Background Atmosphere */}
             <NeuralParticles />
             <PulseRings />
-            <NeuralLinks activity={activity} />
 
             {/* Core Brain Model */}
             <primitive object={clonedScene} position={[0, 0, 0]} scale={4.5} />
