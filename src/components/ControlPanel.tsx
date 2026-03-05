@@ -67,8 +67,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                             key={f}
                             onClick={() => setActivityFilter(f)}
                             className={`py-2 text-xs font-medium rounded-lg transition-all capitalize ${activityFilter === f
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
-                                    : 'bg-zinc-950 text-zinc-400 border border-zinc-800 hover:border-zinc-700'
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
+                                : 'bg-zinc-950 text-zinc-400 border border-zinc-800 hover:border-zinc-700'
                                 }`}
                         >
                             {f}

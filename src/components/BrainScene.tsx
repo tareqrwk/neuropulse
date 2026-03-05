@@ -8,6 +8,7 @@ import { rois, ROIName } from '../utils/roiPositions';
 interface BrainSceneProps {
     activity: ActivityMap;
     filter: 'all' | 'moderate' | 'high';
+    showUI?: boolean;
 }
 
 // Preload the model
@@ -143,7 +144,7 @@ const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: strin
     );
 };
 
-export const BrainScene: React.FC<BrainSceneProps> = ({ activity, filter }) => {
+export const BrainScene: React.FC<BrainSceneProps> = ({ activity, filter, showUI = true }) => {
     return (
         <div className="w-full h-full bg-zinc-950 rounded-xl overflow-hidden shadow-2xl relative border border-zinc-800">
             <Suspense fallback={
@@ -180,29 +181,33 @@ export const BrainScene: React.FC<BrainSceneProps> = ({ activity, filter }) => {
                 </Canvas>
             </Suspense>
 
-            {/* Overlay label */}
-            <div className="absolute top-4 left-4 bg-zinc-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-zinc-800 pointer-events-none">
-                <span className="text-zinc-300 font-medium text-sm">3D Brain Model</span>
-            </div>
+            {showUI && (
+                <>
+                    {/* Overlay label */}
+                    <div className="absolute top-4 left-4 bg-zinc-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-zinc-800 pointer-events-none">
+                        <span className="text-zinc-300 font-medium text-sm">3D Brain Model</span>
+                    </div>
 
-            {/* Legend */}
-            <div className="absolute bottom-4 right-4 bg-zinc-900/60 backdrop-blur-md px-4 py-3 rounded-xl border border-zinc-800 pointer-events-none shadow-xl">
-                <div className="text-zinc-400 font-medium text-[10px] mb-3 uppercase tracking-wider">Activity Level</div>
-                <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-                        <span className="text-zinc-300 text-xs font-medium">High</span>
+                    {/* Legend */}
+                    <div className="absolute bottom-4 right-4 bg-zinc-900/60 backdrop-blur-md px-4 py-3 rounded-xl border border-zinc-800 pointer-events-none shadow-xl">
+                        <div className="text-zinc-400 font-medium text-[10px] mb-3 uppercase tracking-wider">Activity Level</div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+                                <span className="text-zinc-300 text-xs font-medium">High</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></div>
+                                <span className="text-zinc-300 text-xs font-medium">Moderate</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                                <span className="text-zinc-300 text-xs font-medium">Low</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></div>
-                        <span className="text-zinc-300 text-xs font-medium">Moderate</span>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
-                        <span className="text-zinc-300 text-xs font-medium">Low</span>
-                    </div>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 };
