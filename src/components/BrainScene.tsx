@@ -1,6 +1,6 @@
-import React, { useMemo, Suspense } from 'react';
+import React, { useMemo, Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
+import { OrbitControls, useGLTF, Environment, Html, Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { ActivityMap } from '../utils/activitySimulator';
 import { rois, ROIName } from '../utils/roiPositions';
@@ -86,6 +86,121 @@ const NeuralHUD = ({ activity }: { activity: ActivityMap }) => {
                 </div>
             </div>
         </Html>
+    );
+};
+
+const NeuralParticles = () => {
+    const count = 100;
+    const points = useMemo(() => {
+        const p = new Float32Array(count * 3);
+        for (let i = 0; i < count; i++) {
+            p[i * 3] = (Math.random() - 0.5) * 20;
+            p[i * 3 + 1] = (Math.random() - 0.5) * 20;
+            p[i * 3 + 2] = (Math.random() - 0.5) * 20;
+        }
+        return p;
+    }, []);
+
+    const pointsRef = useRef<THREE.Points>(null);
+    useFrame((state) => {
+        if (pointsRef.current) {
+            pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
+            pointsRef.current.rotation.z = state.clock.getElapsedTime() * 0.03;
+        }
+    });
+
+    return (
+        <points ref={pointsRef}>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={count}
+                    array={points}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <pointsMaterial
+                size={0.05}
+                color="#60a5fa"
+                transparent
+                opacity={0.15}
+                sizeAttenuation
+                blending={THREE.AdditiveBlending}
+            />
+        </points>
+    );
+};
+
+const NeuralLinks = ({ activity }: { activity: ActivityMap }) => {
+    const roiKeys = Object.keys(rois) as ROIName[];
+    const links = useMemo(() => {
+        const l = [];
+        for (let i = 0; i < roiKeys.length; i++) {
+            for (let j = i + 1; j < roiKeys.length; j++) {
+                l.push({ start: roiKeys[i], end: roiKeys[j] });
+            }
+        }
+        return l;
+    }, [roiKeys]);
+
+    return (
+        <group>
+            {links.map((link, i) => {
+                const combinedActivity = (activity[link.start] + activity[link.end]) / 2;
+                if (combinedActivity < 0.2) return null;
+
+                const startPos = rois[link.start].position.map(v => v * 5.0) as [number, number, number];
+                const endPos = rois[link.end].position.map(v => v * 5.0) as [number, number, number];
+
+                return (
+                    <Line
+                        key={i}
+                        points={[startPos, endPos]}
+                        color="#3b82f6"
+                        lineWidth={0.5}
+                        transparent
+                        opacity={combinedActivity * 0.05}
+                        blending={THREE.AdditiveBlending}
+                    />
+                );
+            })}
+        </group>
+    );
+};
+
+const PulseRings = () => {
+    const rings = [0, 1, 2];
+    return (
+        <group>
+            {rings.map((i) => (
+                <PulseRing key={i} delay={i * 2} />
+            ))}
+        </group>
+    );
+};
+
+const PulseRing = ({ delay }: { delay: number }) => {
+    const ringRef = useRef<THREE.Mesh>(null);
+    useFrame((state) => {
+        if (ringRef.current) {
+            const time = (state.clock.getElapsedTime() + delay) % 6;
+            const progress = time / 6;
+            ringRef.current.scale.setScalar(1 + progress * 15);
+            (ringRef.current.material as THREE.MeshBasicMaterial).opacity = (1 - progress) * 0.05;
+        }
+    });
+
+    return (
+        <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.9, 1.0, 64]} />
+            <meshBasicMaterial
+                color="#60a5fa"
+                transparent
+                opacity={0}
+                depthWrite={false}
+                blending={THREE.AdditiveBlending}
+            />
+        </mesh>
     );
 };
 
@@ -212,10 +327,17 @@ const BrainModel = ({ activity, filter, showHUD = true }: { activity: ActivityMa
     }, [scene, customMaterial]);
 
     return (
-        <>
+        <group>
+            {/* Background Atmosphere */}
+            <NeuralParticles />
+            <PulseRings />
+            <NeuralLinks activity={activity} />
+
+            {/* Core Brain Model */}
             <primitive object={clonedScene} position={[0, 0, 0]} scale={4.5} />
+
             {showHUD && <NeuralHUD activity={activity} />}
-        </>
+        </group>
     );
 };
 

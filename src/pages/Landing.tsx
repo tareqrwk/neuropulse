@@ -9,7 +9,9 @@ import {
     Monitor,
     Cpu,
     Layers,
-    Globe
+    Globe,
+    Code2,
+    Database
 } from 'lucide-react';
 import { BrainScene } from '../components/BrainScene';
 import { useNeuralActivity } from '../hooks/useNeuralActivity';
@@ -77,13 +79,13 @@ const features = [
 ];
 
 const techStack = [
-    { name: "React", category: "Core" },
-    { name: "Vite", category: "Build" },
-    { name: "TypeScript", category: "Language" },
-    { name: "Three.js / R3F", category: "Graphics" },
-    { name: "Framer Motion", category: "Animation" },
-    { name: "TailwindCSS", category: "Styles" },
-    { name: "Recharts", category: "Data" }
+    { name: "React", category: "Framework", icon: <Code2 size={18} className="text-blue-400" /> },
+    { name: "Vite", category: "Build Tool", icon: <Zap size={18} className="text-yellow-400" /> },
+    { name: "TypeScript", category: "Language", icon: <Database size={18} className="text-blue-500" /> },
+    { name: "Three.js / R3F", category: "3D Graphics", icon: <Globe size={18} className="text-purple-400" /> },
+    { name: "Framer Motion", category: "Animations", icon: <Monitor size={18} className="text-pink-400" /> },
+    { name: "TailwindCSS", category: "Styling", icon: <Layers size={18} className="text-teal-400" /> },
+    { name: "Recharts", category: "Data Viz", icon: <Activity size={18} className="text-emerald-400" /> }
 ];
 
 export default function Landing() {
@@ -234,15 +236,25 @@ export default function Landing() {
                         >
                             <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-500 mb-6">Environment</h2>
                             <h3 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-12">Built With</h3>
-                            <div className="flex flex-wrap gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {techStack.map((tech, i) => (
-                                    <div
+                                    <motion.div
                                         key={i}
-                                        className="px-6 py-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-start gap-1 hover:bg-white/10 transition-colors cursor-default"
+                                        whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.08)" }}
+                                        className="p-5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-5 transition-all group cursor-default"
                                     >
-                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/80">{tech.category}</span>
-                                        <span className="text-sm font-bold">{tech.name}</span>
-                                    </div>
+                                        <div className="p-3 rounded-xl bg-black/40 border border-white/5 group-hover:border-blue-500/30 transition-colors shadow-inner">
+                                            {tech.icon}
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 group-hover:text-blue-500/80 transition-colors">
+                                                {tech.category}
+                                            </span>
+                                            <span className="text-base font-bold tracking-tight text-white/90">
+                                                {tech.name}
+                                            </span>
+                                        </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </motion.div>
