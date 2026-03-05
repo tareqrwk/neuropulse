@@ -1,0 +1,11 @@
+Model Information:
+* title:	Brain Areas
+* source:	https://sketchfab.com/3d-models/brain-areas-d64608a3978b47d8a39c5a15795ca8c4
+* author:	Versal (https://sketchfab.com/versal)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Brain Areas" (https://sketchfab.com/3d-models/brain-areas-d64608a3978b47d8a39c5a15795ca8c4) by Versal (https://sketchfab.com/versal) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,662 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 139,
+      "max": [
+        0.06697463989257813,
+        0.4097471237182617,
+        0.19186723232269287
+      ],
+      "min": [
+        -0.09192657470703125,
+        0.32030296325683594,
+        0.09103137254714966
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1668,
+      "componentType": 5126,
+      "count": 139,
+      "max": [
+        0.9199443459510803,
+        0.9962463974952698,
+        0.9477114081382751
+      ],
+      "min": [
+        -0.9199290871620178,
+        -0.9960207939147949,
+        -0.9848831295967102
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 139,
+      "max": [
+        0.20056426525115967,
+        0.639019787311554
+      ],
+      "min": [
+        0.032826587557792664,
+        0.3530687689781189
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 702,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 3336,
+      "componentType": 5126,
+      "count": 6911,
+      "max": [
+        0.4107666015625,
+        0.51873779296875,
+        -0.03578758239746094
+      ],
+      "min": [
+        -0.4500274658203125,
+        0.143585205078125,
+        -0.5016469955444336
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 86268,
+      "componentType": 5126,
+      "count": 6911,
+      "max": [
+        0.9991917610168457,
+        0.9999856352806091,
+        0.9999716281890869
+      ],
+      "min": [
+        -0.9991888403892517,
+        -0.999934732913971,
+        -0.9999996423721313
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1112,
+      "componentType": 5126,
+      "count": 6911,
+      "max": [
+        0.9807304739952087,
+        0.35311657190322876
+      ],
+      "min": [
+        0.013167799450457096,
+        0.03158395737409592
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2808,
+      "componentType": 5125,
+      "count": 40740,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 169200,
+      "componentType": 5126,
+      "count": 902,
+      "max": [
+        0.024658203125,
+        0.8369903564453125,
+        0.1965341567993164
+      ],
+      "min": [
+        -0.056884765625,
+        0.596923828125,
+        -0.1811351776123047
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 180024,
+      "componentType": 5126,
+      "count": 902,
+      "max": [
+        0.9999330639839172,
+        0.9994871616363525,
+        0.9766749739646912
+      ],
+      "min": [
+        -0.9996021389961243,
+        -0.9970365762710571,
+        -0.9997236132621765
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 56400,
+      "componentType": 5126,
+      "count": 902,
+      "max": [
+        0.8053662180900574,
+        0.5902931094169617
+      ],
+      "min": [
+        0.554730236530304,
+        0.33212539553642273
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 63616,
+      "componentType": 5126,
+      "count": 902,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.0,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 165768,
+      "componentType": 5125,
+      "count": 3660,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 190848,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.52923583984375,
+        1.124481201171875,
+        0.6581108570098877
+      ],
+      "min": [
+        -0.00640869140625,
+        0.2871856689453125,
+        -0.658111572265625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 430740,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.9999797344207764,
+        0.9999841451644897,
+        0.999894380569458
+      ],
+      "min": [
+        -0.9999875426292419,
+        -0.999916136264801,
+        -0.9998654723167419
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 70832,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.6119716167449951,
+        0.9907212257385254
+      ],
+      "min": [
+        0.009172581136226654,
+        0.47177597880363464
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 230760,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.9783750772476196,
+        0.9954620003700256
+      ],
+      "min": [
+        0.0,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 180408,
+      "componentType": 5125,
+      "count": 114666,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 670632,
+      "componentType": 5126,
+      "count": 1664,
+      "max": [
+        0.32391357421875,
+        0.8172454833984375,
+        0.31484556198120117
+      ],
+      "min": [
+        -0.3488616943359375,
+        0.0005950927734375,
+        -0.2395181655883789
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 690600,
+      "componentType": 5126,
+      "count": 1664,
+      "max": [
+        0.9999912977218628,
+        0.9997791647911072,
+        0.9999569058418274
+      ],
+      "min": [
+        -0.9999912977218628,
+        -0.9999535083770752,
+        -0.9987123012542725
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 390688,
+      "componentType": 5126,
+      "count": 1664,
+      "max": [
+        0.994086503982544,
+        0.9851077795028687
+      ],
+      "min": [
+        0.5415094494819641,
+        0.4348321259021759
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 639072,
+      "componentType": 5125,
+      "count": 9714,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 710568,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.00640869140625,
+        1.124481201171875,
+        0.6581108570098877
+      ],
+      "min": [
+        -0.52923583984375,
+        0.2871856689453125,
+        -0.658111572265625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 950460,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.9999875426292419,
+        0.9999841451644897,
+        0.999894380569458
+      ],
+      "min": [
+        -0.9999797344207764,
+        -0.999916136264801,
+        -0.9998654723167419
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 404000,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.6119716167449951,
+        0.9907212257385254
+      ],
+      "min": [
+        0.009172581136226654,
+        0.47177597880363464
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 563928,
+      "componentType": 5126,
+      "count": 19991,
+      "max": [
+        0.9783750772476196,
+        0.9954620003700256
+      ],
+      "min": [
+        0.0,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 677928,
+      "componentType": 5125,
+      "count": 114666,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Versal (https://sketchfab.com/versal)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/brain-areas-d64608a3978b47d8a39c5a15795ca8c4",
+      "title": "Brain Areas"
+    },
+    "generator": "Sketchfab-12.68.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1136592,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 723856,
+      "byteOffset": 1136592,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1190352,
+      "byteOffset": 1860448,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 3050800,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "name": "BRAIN_TEXTURE_blinn2",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.16,
+        "roughnessFactor": 0.9471766445332751
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Brain_Part_01_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Brain_Part_02_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Brain_Part_03_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TEXCOORD_0": 10,
+            "TEXCOORD_1": 11
+          },
+          "indices": 12,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Brain_Part_04_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 14,
+            "POSITION": 13,
+            "TEXCOORD_0": 15,
+            "TEXCOORD_1": 16
+          },
+          "indices": 17,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Brain_Part_05_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 19,
+            "POSITION": 18,
+            "TEXCOORD_0": 20
+          },
+          "indices": 21,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Brain_Part_06_BRAIN_TEXTURE_blinn2_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 23,
+            "POSITION": 22,
+            "TEXCOORD_0": 24,
+            "TEXCOORD_1": 25
+          },
+          "indices": 26,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Brain_Model.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        6,
+        8,
+        10,
+        12,
+        14
+      ],
+      "name": "Brain"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "Brain_Part_01"
+    },
+    {
+      "mesh": 0,
+      "name": "Brain_Part_01_BRAIN_TEXTURE_blinn2_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "name": "Brain_Part_02"
+    },
+    {
+      "mesh": 1,
+      "name": "Brain_Part_02_BRAIN_TEXTURE_blinn2_0"
+    },
+    {
+      "children": [
+        9
+      ],
+      "name": "Brain_Part_03"
+    },
+    {
+      "mesh": 2,
+      "name": "Brain_Part_03_BRAIN_TEXTURE_blinn2_0"
+    },
+    {
+      "children": [
+        11
+      ],
+      "name": "Brain_Part_04"
+    },
+    {
+      "mesh": 3,
+      "name": "Brain_Part_04_BRAIN_TEXTURE_blinn2_0"
+    },
+    {
+      "children": [
+        13
+      ],
+      "name": "Brain_Part_05"
+    },
+    {
+      "mesh": 4,
+      "name": "Brain_Part_05_BRAIN_TEXTURE_blinn2_0"
+    },
+    {
+      "children": [
+        15
+      ],
+      "name": "Brain_Part_06"
+    },
+    {
+      "mesh": 5,
+      "name": "Brain_Part_06_BRAIN_TEXTURE_blinn2_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
