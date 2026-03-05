@@ -9,10 +9,12 @@ interface ControlPanelProps {
     togglePlay: () => void;
     speed: number;
     setSpeed: (s: number) => void;
+    activityFilter: 'all' | 'moderate' | 'high';
+    setActivityFilter: (f: 'all' | 'moderate' | 'high') => void;
 }
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
-    scenario, setScenario, isPlaying, togglePlay, speed, setSpeed
+    scenario, setScenario, isPlaying, togglePlay, speed, setSpeed, activityFilter, setActivityFilter
 }) => {
     return (
         <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 p-4 rounded-xl flex flex-col gap-4 shadow-xl">
@@ -54,6 +56,24 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                         onChange={(e) => setSpeed(parseFloat(e.target.value))}
                         className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
                     />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-2">
+                <label className="text-zinc-400 text-sm font-medium">Activity Filter</label>
+                <div className="grid grid-cols-3 gap-2">
+                    {(['all', 'moderate', 'high'] as const).map((f) => (
+                        <button
+                            key={f}
+                            onClick={() => setActivityFilter(f)}
+                            className={`py-2 text-xs font-medium rounded-lg transition-all capitalize ${activityFilter === f
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
+                                    : 'bg-zinc-950 text-zinc-400 border border-zinc-800 hover:border-zinc-700'
+                                }`}
+                        >
+                            {f}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

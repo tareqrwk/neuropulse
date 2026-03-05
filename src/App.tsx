@@ -13,7 +13,9 @@ function App() {
     togglePlay,
     speed,
     setSpeed,
-    history
+    history,
+    activityFilter,
+    setActivityFilter
   } = useNeuralActivity();
 
   return (
@@ -45,14 +47,16 @@ function App() {
             togglePlay={togglePlay}
             speed={speed}
             setSpeed={setSpeed}
+            activityFilter={activityFilter}
+            setActivityFilter={setActivityFilter}
           />
           <ActivityChart history={history} />
-          <ActiveRegions activity={activity} />
+          <ActiveRegions activity={activity} filter={activityFilter} />
         </section>
 
         {/* Right Panel: 3D Visualization */}
         <section className="lg:col-span-8 h-[500px] lg:h-full min-h-[500px] relative rounded-xl ring-1 ring-zinc-800/50">
-          <BrainScene activity={activity} />
+          <BrainScene activity={activity} filter={activityFilter} />
         </section>
 
       </main>

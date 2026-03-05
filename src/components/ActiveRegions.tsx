@@ -4,6 +4,7 @@ import { rois } from '../utils/roiPositions';
 
 interface ActiveRegionsProps {
     activity: ActivityMap;
+    filter: 'all' | 'moderate' | 'high';
 }
 
 const getActivityLevel = (val: number) => {
@@ -12,8 +13,14 @@ const getActivityLevel = (val: number) => {
     return { label: 'Low', color: 'text-blue-400 bg-blue-400/10' };
 };
 
-export const ActiveRegions: React.FC<ActiveRegionsProps> = ({ activity }) => {
-    const regions = Object.entries(activity).sort(([, a], [, b]) => b - a);
+export const ActiveRegions: React.FC<ActiveRegionsProps> = ({ activity, filter }) => {
+    const regions = Object.entries(activity)
+        .filter(([, val]) => {
+            if (filter === 'moderate') return val >= 0.3;
+            if (filter === 'high') return val >= 0.7;
+            return true;
+        })
+        .sort(([, a], [, b]) => b - a);
 
     return (
         <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 p-4 rounded-xl flex flex-col gap-3 shadow-xl flex-1 min-h-[200px]">

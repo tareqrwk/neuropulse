@@ -13,6 +13,7 @@ export function useNeuralActivity() {
     const [isPlaying, setIsPlaying] = useState(true);
     const [speed, setSpeed] = useState(1);
     const [history, setHistory] = useState<HistoryPoint[]>([]);
+    const [activityFilter, setActivityFilter] = useState<'all' | 'moderate' | 'high'>('all');
 
     useEffect(() => {
         simulator.current.setScenario(scenario);
@@ -44,6 +45,8 @@ export function useNeuralActivity() {
         togglePlay: useCallback(() => setIsPlaying(p => !p), []),
         speed,
         setSpeed,
-        history
+        history,
+        activityFilter,
+        setActivityFilter
     };
 }
