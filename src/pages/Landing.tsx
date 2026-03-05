@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
     Brain,
@@ -7,7 +7,6 @@ import {
     Zap,
     Activity,
     Monitor,
-    Cpu,
     Layers,
     Globe,
     Code2,
@@ -16,7 +15,7 @@ import {
 import { BrainScene } from '../components/BrainScene';
 import { useNeuralActivity } from '../hooks/useNeuralActivity';
 
-const containerVariants = {
+const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
@@ -27,7 +26,7 @@ const containerVariants = {
     },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
     hidden: { y: 30, opacity: 0 },
     visible: {
         y: 0,

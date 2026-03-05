@@ -266,7 +266,7 @@ const BrainModel = ({ activity, filter, showHUD = true }: { activity: ActivityMa
                 const mid = new THREE.Color('#eab308');
                 const high = new THREE.Color('#ef4444');
 
-                let targetColor = new THREE.Color();
+                const targetColor = new THREE.Color();
                 if (value < 0.5) targetColor.lerpColors(low, mid, value * 2.0);
                 else targetColor.lerpColors(mid, high, (value - 0.5) * 2.0);
 
