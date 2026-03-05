@@ -1,6 +1,6 @@
 import React, { useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
+import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ActivityMap } from '../utils/activitySimulator';
 import { rois, ROIName } from '../utils/roiPositions';
@@ -11,19 +11,94 @@ interface BrainSceneProps {
     showUI?: boolean;
 }
 
-// Preload the model
-useGLTF.preload('/models/brain/scene.gltf');
+const NeuralHUD = ({ activity }: { activity: ActivityMap }) => {
+    const roiKeys = Object.keys(rois) as ROIName[];
 
-const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: string }) => {
+    return (
+        <Html fullscreen pointerEvents="none">
+            <div className="absolute inset-0 hidden md:flex flex-col md:flex-row p-4 md:p-8 pointer-events-none select-none overflow-hidden">
+                {/* Left Side / Top HUD */}
+                <div className="flex flex-row md:flex-col gap-3 md:gap-6 w-full md:w-64 pointer-events-auto overflow-x-auto md:overflow-visible pb-4 md:pb-0 scrollbar-hide">
+                    {roiKeys.slice(0, 3).map((key) => {
+                        const val = activity[key] || 0;
+                        return (
+                            <div key={key} className="flex-shrink-0 w-[140px] md:w-full group relative">
+                                <div className={`
+                                    p-2 md:p-3 rounded-lg border backdrop-blur-md transition-all duration-500
+                                    ${val > 0.7 ? 'bg-red-500/10 border-red-500/30' : val > 0.3 ? 'bg-yellow-500/10 border-yellow-500/30' : 'bg-zinc-900/40 border-zinc-800'}
+                                `}>
+                                    <div className="flex justify-between items-end mb-1 md:mb-1.5">
+                                        <span className="text-[8px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.2em] font-bold text-zinc-500 group-hover:text-zinc-300">
+                                            {rois[key].label}
+                                        </span>
+                                        <span className={`text-[10px] md:text-xs font-mono ${val > 0.7 ? 'text-red-400' : val > 0.3 ? 'text-yellow-400' : 'text-blue-400'}`}>
+                                            {(val * 100).toFixed(0)}%
+                                        </span>
+                                    </div>
+                                    <div className="h-0.5 md:h-1 bg-zinc-800/50 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full transition-all duration-700 ease-out ${val > 0.7 ? 'bg-red-500' : val > 0.3 ? 'bg-yellow-500' : 'bg-blue-500'}`}
+                                            style={{ width: `${val * 100}%` }}
+                                        />
+                                    </div>
+                                    {val > 0.85 && (
+                                        <div className="absolute -left-1 top-0 bottom-0 w-0.5 bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,1)]" />
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <div className="flex-1 min-h-[100px]" />
+
+                {/* Right Side / Bottom HUD */}
+                <div className="flex flex-row md:flex-col gap-3 md:gap-6 w-full md:w-64 items-end pointer-events-auto overflow-x-auto md:overflow-visible pt-4 md:pt-0 scrollbar-hide">
+                    {roiKeys.slice(3).map((key) => {
+                        const val = activity[key] || 0;
+                        return (
+                            <div key={key} className="flex-shrink-0 w-[140px] md:w-full group relative">
+                                <div className={`
+                                    p-2 md:p-3 rounded-lg border backdrop-blur-md transition-all duration-500
+                                    ${val > 0.7 ? 'bg-red-500/10 border-red-500/30' : val > 0.3 ? 'bg-yellow-500/10 border-yellow-500/30' : 'bg-zinc-900/40 border-zinc-800'}
+                                `}>
+                                    <div className="flex justify-between items-end mb-1 md:mb-1.5">
+                                        <span className={`text-[10px] md:text-xs font-mono ${val > 0.7 ? 'text-red-400' : val > 0.3 ? 'text-yellow-400' : 'text-blue-400'}`}>
+                                            {(val * 100).toFixed(0)}%
+                                        </span>
+                                        <span className="text-[8px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.2em] font-bold text-zinc-500 group-hover:text-zinc-300">
+                                            {rois[key].label}
+                                        </span>
+                                    </div>
+                                    <div className="h-0.5 md:h-1 bg-zinc-800/50 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full transition-all duration-700 ease-out ml-auto ${val > 0.7 ? 'bg-red-500' : val > 0.3 ? 'bg-yellow-500' : 'bg-blue-500'}`}
+                                            style={{ width: `${val * 100}%` }}
+                                        />
+                                    </div>
+                                    {val > 0.85 && (
+                                        <div className="absolute -right-1 top-0 bottom-0 w-0.5 bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,1)]" />
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </Html>
+    );
+};
+
+const BrainModel = ({ activity, filter, showHUD = true }: { activity: ActivityMap, filter: string, showHUD?: boolean }) => {
     const { scene } = useGLTF('/models/brain/scene.gltf');
 
     const customMaterial = useMemo(() => {
         const mat = new THREE.MeshStandardMaterial({
-            color: '#1a1a24',
+            color: '#0a0a0f',
             transparent: true,
-            opacity: 0.9,
-            roughness: 0.4,
-            metalness: 0.6,
+            opacity: 0.95,
+            roughness: 0.2,
+            metalness: 0.9,
         });
 
         mat.onBeforeCompile = (shader) => {
@@ -67,18 +142,20 @@ const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: strin
                 vec3 heatmapGlow = vec3(0.0);
                 for(int i = 0; i < 6; i++) {
                     float dist = distance(vWorldPosition, uRoiPositions[i]);
-                    float radius = 4.0;
+                    float radius = 4.5;
                     
-                    // Base soft glow
-                    float baseIntensity = smoothstep(radius, 0.0, dist);
+                    // Smoother, biometric exponential decay
+                    float baseIntensity = exp(-pow(dist / radius, 2.0) * 2.0);
                     
-                    // Outward moving wave ripple: sin(distance * freq - time * speed)
-                    float wave = sin(dist * 8.0 - uTime * 5.0) * 0.5 + 0.5;
+                    // Subtle organic pulse
+                    float pulse = 0.9 + 0.1 * sin(uTime * 1.5 + float(i));
                     
-                    // Multiply base glow by the wave and the actual ROI activity level
-                    float intensity = baseIntensity * wave * uRoiIntensities[i];
+                    // Soft wave ripple
+                    float wave = 0.8 + 0.2 * sin(dist * 2.0 - uTime * 2.5);
                     
-                    heatmapGlow += uRoiColors[i] * intensity;
+                    float intensity = baseIntensity * pulse * wave * uRoiIntensities[i];
+                    
+                    heatmapGlow += uRoiColors[i] * intensity * 1.2;
                 }
                 totalEmissiveRadiance += heatmapGlow;
                 `
@@ -102,7 +179,7 @@ const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: strin
                 const value = Math.max(0, activity[key]);
                 const pos = rois[key].position;
 
-                // Scale positions to align with the 4.5 scaled brain
+                // Standard scaling for heatmap coordinates
                 uniforms.uRoiPositions.value[i].set(pos[0] * 5.0, pos[1] * 5.0, pos[2] * 5.0);
 
                 const low = new THREE.Color('#3b82f6');
@@ -115,8 +192,7 @@ const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: strin
 
                 uniforms.uRoiColors.value[i].copy(targetColor);
 
-                // Apply filter threshold
-                let intensity = value * 3.0;
+                let intensity = value * 2.5;
                 if (filter === 'moderate' && value < 0.3) intensity = 0;
                 if (filter === 'high' && value < 0.7) intensity = 0;
 
@@ -136,11 +212,10 @@ const BrainModel = ({ activity, filter }: { activity: ActivityMap, filter: strin
     }, [scene, customMaterial]);
 
     return (
-        <primitive
-            object={clonedScene}
-            position={[0, 0, 0]}
-            scale={4.5}
-        />
+        <>
+            <primitive object={clonedScene} position={[0, 0, 0]} scale={4.5} />
+            {showHUD && <NeuralHUD activity={activity} />}
+        </>
     );
 };
 
@@ -166,7 +241,7 @@ export const BrainScene: React.FC<BrainSceneProps> = ({ activity, filter, showUI
                     {/* Rim light (strong from behind) */}
                     <spotLight position={[0, 5, -10]} intensity={8.0} color="#60a5fa" penumbra={0.5} distance={100} />
 
-                    <BrainModel activity={activity} filter={filter} />
+                    <BrainModel activity={activity} filter={filter} showHUD={showUI} />
 
                     <OrbitControls
                         enableZoom={true}
@@ -183,26 +258,21 @@ export const BrainScene: React.FC<BrainSceneProps> = ({ activity, filter, showUI
 
             {showUI && (
                 <>
-                    {/* Overlay label */}
-                    <div className="absolute top-4 left-4 bg-zinc-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-zinc-800 pointer-events-none">
-                        <span className="text-zinc-300 font-medium text-sm">3D Brain Model</span>
-                    </div>
-
-                    {/* Legend */}
-                    <div className="absolute bottom-4 right-4 bg-zinc-900/60 backdrop-blur-md px-4 py-3 rounded-xl border border-zinc-800 pointer-events-none shadow-xl">
-                        <div className="text-zinc-400 font-medium text-[10px] mb-3 uppercase tracking-wider">Activity Level</div>
-                        <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-2.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-                                <span className="text-zinc-300 text-xs font-medium">High</span>
+                    {/* Legend - Responsive scaling */}
+                    <div className="absolute bottom-4 right-4 bg-zinc-900/60 backdrop-blur-md px-3 py-2 md:px-4 md:py-3 rounded-xl border border-zinc-800 pointer-events-none shadow-xl scale-90 md:scale-100 origin-bottom-right hidden md:block">
+                        <div className="text-zinc-400 font-medium text-[8px] md:text-[10px] mb-2 md:mb-3 uppercase tracking-wider">Activity Level</div>
+                        <div className="flex flex-col gap-1.5 md:gap-2">
+                            <div className="flex items-center gap-2 md:gap-2.5">
+                                <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+                                <span className="text-zinc-300 text-[10px] md:text-xs font-medium">High</span>
                             </div>
-                            <div className="flex items-center gap-2.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></div>
-                                <span className="text-zinc-300 text-xs font-medium">Moderate</span>
+                            <div className="flex items-center gap-2 md:gap-2.5">
+                                <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)]"></div>
+                                <span className="text-zinc-300 text-[10px] md:text-xs font-medium">Moderate</span>
                             </div>
-                            <div className="flex items-center gap-2.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
-                                <span className="text-zinc-300 text-xs font-medium">Low</span>
+                            <div className="flex items-center gap-2 md:gap-2.5">
+                                <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                                <span className="text-zinc-300 text-[10px] md:text-xs font-medium">Low</span>
                             </div>
                         </div>
                     </div>
