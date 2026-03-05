@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, Suspense } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 import * as THREE from 'three';
@@ -12,81 +12,114 @@ interface BrainSceneProps {
 // Preload the model
 useGLTF.preload('/models/brain/scene.gltf');
 
-const BrainModel = () => {
+const BrainModel = ({ activity }: { activity: ActivityMap }) => {
     const { scene } = useGLTF('/models/brain/scene.gltf');
 
-    // Clone the scene and adjust materials if necessary to make it look like a hologram or dark wireframe
+    const customMaterial = useMemo(() => {
+        const mat = new THREE.MeshStandardMaterial({
+            color: '#1a1a24',
+            transparent: true,
+            opacity: 0.9,
+            roughness: 0.6,
+            metalness: 0.3,
+        });
+
+        mat.onBeforeCompile = (shader) => {
+            shader.uniforms.uRoiPositions = {
+                value: [
+                    new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(),
+                    new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()
+                ]
+            };
+            shader.uniforms.uRoiColors = {
+                value: [
+                    new THREE.Color(), new THREE.Color(), new THREE.Color(),
+                    new THREE.Color(), new THREE.Color(), new THREE.Color()
+                ]
+            };
+            shader.uniforms.uRoiIntensities = { value: [0, 0, 0, 0, 0, 0] };
+
+            shader.vertexShader = `
+                varying vec3 vWorldPosition;
+                ${shader.vertexShader}
+            `.replace(
+                `#include <worldpos_vertex>`,
+                `
+                #include <worldpos_vertex>
+                vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
+                `
+            );
+
+            shader.fragmentShader = `
+                uniform vec3 uRoiPositions[6];
+                uniform vec3 uRoiColors[6];
+                uniform float uRoiIntensities[6];
+                varying vec3 vWorldPosition;
+                ${shader.fragmentShader}
+            `.replace(
+                `#include <emissivemap_fragment>`,
+                `
+                #include <emissivemap_fragment>
+                vec3 heatmapGlow = vec3(0.0);
+                for(int i = 0; i < 6; i++) {
+                    float dist = distance(vWorldPosition, uRoiPositions[i]);
+                    float radius = 3.5;
+                    float intensity = smoothstep(radius, 0.0, dist) * uRoiIntensities[i];
+                    heatmapGlow += uRoiColors[i] * intensity;
+                }
+                totalEmissiveRadiance += heatmapGlow;
+                `
+            );
+
+            mat.userData.shader = shader;
+        };
+
+        return mat;
+    }, []);
+
+    useFrame(() => {
+        if (customMaterial.userData.shader) {
+            const uniforms = customMaterial.userData.shader.uniforms;
+            const roiKeys = Object.keys(rois) as ROIName[];
+
+            for (let i = 0; i < roiKeys.length; i++) {
+                const key = roiKeys[i];
+                const value = Math.max(0, activity[key]);
+                const pos = rois[key].position;
+
+                // Scale positions to align with the 4.5 scaled brain
+                uniforms.uRoiPositions.value[i].set(pos[0] * 5.0, pos[1] * 5.0, pos[2] * 5.0);
+
+                const low = new THREE.Color('#3b82f6');
+                const mid = new THREE.Color('#eab308');
+                const high = new THREE.Color('#ef4444');
+
+                let targetColor = new THREE.Color();
+                if (value < 0.5) targetColor.lerpColors(low, mid, value * 2.0);
+                else targetColor.lerpColors(mid, high, (value - 0.5) * 2.0);
+
+                uniforms.uRoiColors.value[i].copy(targetColor);
+                uniforms.uRoiIntensities.value[i] = value * 3.0;
+            }
+        }
+    });
+
     const clonedScene = useMemo(() => {
         const s = scene.clone();
         s.traverse((node) => {
             if ((node as THREE.Mesh).isMesh) {
-                const mesh = node as THREE.Mesh;
-                // Make the brain model look like a dark, semi-transparent material
-                mesh.material = new THREE.MeshStandardMaterial({
-                    color: '#1a1a24',
-                    transparent: true,
-                    opacity: 0.8,
-                    roughness: 0.7,
-                    metalness: 0.2,
-                });
+                (node as THREE.Mesh).material = customMaterial;
             }
         });
         return s;
-    }, [scene]);
+    }, [scene, customMaterial]);
 
     return (
         <primitive
             object={clonedScene}
             position={[0, 0, 0]}
-            scale={2}
+            scale={4.5}
         />
-    );
-};
-
-// Component for a single glowing region
-const ROIMarker = ({ value, position }: { value: number; position: [number, number, number] }) => {
-    const meshRef = useRef<THREE.Mesh>(null);
-    const materialRef = useRef<THREE.MeshStandardMaterial>(null);
-
-    useFrame(() => {
-        if (materialRef.current) {
-            // Interpolate color from blue (low) -> yellow (moderate) -> red (high)
-            const lowColor = new THREE.Color('#3b82f6'); // blue
-            const midColor = new THREE.Color('#eab308'); // yellow
-            const highColor = new THREE.Color('#ef4444'); // red
-
-            let targetColor = new THREE.Color();
-            if (value < 0.5) {
-                targetColor.lerpColors(lowColor, midColor, value * 2);
-            } else {
-                targetColor.lerpColors(midColor, highColor, (value - 0.5) * 2);
-            }
-
-            // Smoothly animate to the target color
-            materialRef.current.color.lerp(targetColor, 0.1);
-            materialRef.current.emissive.lerp(targetColor, 0.1);
-            materialRef.current.emissiveIntensity = 0.5 + value * 2;
-        }
-
-        if (meshRef.current) {
-            // Small pulsing animation based on activity
-            const scaleBase = 0.4 + value * 0.4;
-            meshRef.current.scale.lerp(new THREE.Vector3(scaleBase, scaleBase, scaleBase), 0.1);
-        }
-    });
-
-    return (
-        <mesh ref={meshRef} position={position}>
-            <sphereGeometry args={[1, 32, 32]} />
-            <meshStandardMaterial
-                ref={materialRef}
-                color="#3b82f6"
-                emissive="#3b82f6"
-                emissiveIntensity={0.5}
-                transparent
-                opacity={0.9}
-            />
-        </mesh>
     );
 };
 
@@ -105,17 +138,7 @@ export const BrainScene: React.FC<BrainSceneProps> = ({ activity }) => {
                     <directionalLight position={[10, 10, 10]} intensity={1} />
                     <spotLight position={[-10, 10, -10]} intensity={0.8} color="#3b82f6" />
 
-                    <BrainModel />
-
-                    <group scale={2}>
-                        {Object.entries(rois).map(([key, roi]) => (
-                            <ROIMarker
-                                key={key}
-                                value={activity[key as ROIName]}
-                                position={roi.position}
-                            />
-                        ))}
-                    </group>
+                    <BrainModel activity={activity} />
 
                     <OrbitControls
                         enableZoom={true}
